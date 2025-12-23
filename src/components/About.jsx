@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import './About.css';
-import profileImg from '../assets/profile.jpg';
+import profileImg from '../assets/profile.jpeg';
 
 const About = () => {
     const [hasAnimated, setHasAnimated] = useState(false);
