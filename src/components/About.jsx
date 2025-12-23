@@ -7,11 +7,10 @@ const About = () => {
     const statsRef = useRef(null);
 
     const skills = [
-        { name: 'React', level: 90 },
-        { name: 'JavaScript', level: 85 },
-        { name: 'Node.js', level: 80 },
-        { name: 'CSS/SCSS', level: 88 },
-        { name: 'TypeScript', level: 75 },
+        { name: 'React', level: 60 },
+        { name: 'JavaScript', level: 75 },
+        { name: 'Node.js', level: 50 },
+        { name: 'CSS/SCSS', level: 90 },
         { name: 'MongoDB', level: 70 }
     ];
 
