@@ -202,13 +202,13 @@ const Hero = () => {
                         </div>
                         <div className="stat-divider"></div>
                         <div className="stat">
-                            <div className="stat-number">3+</div>
-                            <div className="stat-label">Years</div>
+                            <div className="stat-number">1</div>
+                            <div className="stat-label">Year</div>
                         </div>
                         <div className="stat-divider"></div>
                         <div className="stat">
                             <div className="stat-number">30+</div>
-                            <div className="stat-label">Clients</div>
+                            <div className="stat-label">Problems Solved</div>
                         </div>
                     </div>
                 </div>
