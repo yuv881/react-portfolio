@@ -8,17 +8,17 @@ const Skills = () => {
         {
             title: 'Frontend',
             icon: '⚡',
-            skills: ['React', 'Vue.js', 'HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'Tailwind CSS', 'SASS']
+            skills: ['React', 'Vue.js', 'HTML5', 'CSS3', 'JavaScript', 'Tailwind CSS', 'SASS']
         },
         {
             title: 'Backend',
             icon: '⚙️',
-            skills: ['Node.js', 'Express', 'Python', 'Django', 'REST API', 'GraphQL', 'PostgreSQL', 'MongoDB']
+            skills: ['Node.js', 'Express', 'Python', 'GraphQL',  'MongoDB']
         },
         {
             title: 'Tools & Others',
             icon: '🛠️',
-            skills: ['Git', 'Docker', 'AWS', 'Firebase', 'Webpack', 'Jest', 'Figma', 'VS Code']
+            skills: ['Git', 'VS Code']
         }
     ];
 
