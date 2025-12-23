@@ -8,29 +8,28 @@ const Hero = () => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-    const titles = ['Full Stack Developer', 'UI/UX Designer', 'Problem Solver', 'Creative Thinker'];
+    const titles = ['Full Stack Developer', 'Software Engineer', 'Creative Tech Enthusiast'];
 
-    // Mouse tracking for interactive elements
+    // Mouse tracking
     useEffect(() => {
         const handleMouseMove = (e) => {
             setMousePosition({ x: e.clientX, y: e.clientY });
         };
-
         window.addEventListener('mousemove', handleMouseMove);
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
 
-    // Typing animation effect
+    // Typing animation
     useEffect(() => {
         const currentTitle = titles[titleIndex];
-        const typingSpeed = isDeleting ? 50 : 100;
+        const typingSpeed = isDeleting ? 40 : 80;
 
         const timer = setTimeout(() => {
             if (!isDeleting) {
                 if (typedText.length < currentTitle.length) {
                     setTypedText(currentTitle.substring(0, typedText.length + 1));
                 } else {
-                    setTimeout(() => setIsDeleting(true), 2000);
+                    setTimeout(() => setIsDeleting(true), 1500);
                 }
             } else {
                 if (typedText.length > 0) {
@@ -43,9 +42,9 @@ const Hero = () => {
         }, typingSpeed);
 
         return () => clearTimeout(timer);
-    }, [typedText, isDeleting, titleIndex, titles]);
+    }, [typedText, isDeleting, titleIndex]);
 
-    // Enhanced particle animation with mouse interaction
+    // Particle animation
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
@@ -63,27 +62,24 @@ const Hero = () => {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
+                this.size = Math.random() * 1.5 + 0.5;
                 this.baseX = this.x;
                 this.baseY = this.y;
-                this.density = Math.random() * 30 + 1;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
+                this.density = Math.random() * 20 + 1;
+                this.speedX = Math.random() * 0.3 - 0.15;
+                this.speedY = Math.random() * 0.3 - 0.15;
             }
 
             update(mouse) {
-                // Mouse interaction
                 const dx = mouse.x - this.x;
                 const dy = mouse.y - this.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                const forceDirectionX = dx / distance;
-                const forceDirectionY = dy / distance;
                 const maxDistance = 150;
-                const force = (maxDistance - distance) / maxDistance;
 
                 if (distance < maxDistance) {
-                    this.x -= forceDirectionX * force * this.density * 0.6;
-                    this.y -= forceDirectionY * force * this.density * 0.6;
+                    const force = (maxDistance - distance) / maxDistance;
+                    this.x -= (dx / distance) * force * this.density * 0.5;
+                    this.y -= (dy / distance) * force * this.density * 0.5;
                 } else {
                     if (this.x !== this.baseX) {
                         this.x += (this.baseX - this.x) * 0.05;
@@ -95,15 +91,10 @@ const Hero = () => {
 
                 this.x += this.speedX;
                 this.y += this.speedY;
-
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
             }
 
             draw() {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -112,7 +103,7 @@ const Hero = () => {
 
         const createParticles = () => {
             particles = [];
-            const particleCount = Math.min(80, Math.floor(canvas.width / 15));
+            const particleCount = Math.min(60, Math.floor(canvas.width / 20));
             for (let i = 0; i < particleCount; i++) {
                 particles.push(new Particle());
             }
@@ -121,7 +112,6 @@ const Hero = () => {
 
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             particles.forEach((particle, index) => {
                 particle.update(mousePosition);
                 particle.draw();
@@ -131,9 +121,9 @@ const Hero = () => {
                     const dy = particles[j].y - particle.y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distance < 120) {
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.15 * (1 - distance / 120)})`;
-                        ctx.lineWidth = 1;
+                    if (distance < 150) {
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 150)})`;
+                        ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(particle.x, particle.y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -141,7 +131,6 @@ const Hero = () => {
                     }
                 }
             });
-
             animationFrameId = requestAnimationFrame(animate);
         };
         animate();
@@ -157,66 +146,59 @@ const Hero = () => {
             <canvas ref={canvasRef} className="hero-canvas"></canvas>
 
             <div className="hero-content container">
-                <div className="hero-text">
-                    <div className="hero-badge fade-in-up delay-1">
-                        <span className="badge-dot"></span>
-                        Available for work
+                <div className="hero-main">
+                    <div className="hero-badge fade-in-up">
+                        <span className="badge-dot pulse"></span>
+                        Available for new opportunities
                     </div>
 
-                    <h1 className="hero-name fade-in-up delay-2">
-                        <span className="name-first">Yuvraj</span>
-                        <span className="name-last">Singh</span>
+                    <h1 className="hero-title fade-in-up delay-1">
+                        Designing the future of <span className="gradient-text">Web Apps</span>
                     </h1>
 
-                    <div className="hero-title-wrapper fade-in-up delay-3">
-                        <h2 className="hero-title">
-                            <span className="typed-text">{typedText}</span>
-                            <span className="cursor">|</span>
-                        </h2>
+                    <div className="hero-typing fade-in-up delay-2">
+                        <span>I am a </span>
+                        <span className="typed-text">{typedText}</span>
+                        <span className="cursor">_</span>
                     </div>
 
-                    <p className="hero-description fade-in-up delay-4">
-                        Crafting exceptional digital experiences through clean code,
-                        innovative design, and user-centered thinking. Specialized in
-                        building scalable web applications that make an impact.
+                    <p className="hero-description fade-in-up delay-3">
+                        Passionate Full Stack Developer specializing in building high-performance,
+                        scalable web applications with modern technologies. Let's build something awesome together.
                     </p>
 
-                    <div className="hero-buttons fade-in-up delay-5">
-                        <a href="#projects" className="btn">
-                            <span>View Work</span>
-                            <span className="btn-arrow">→</span>
+                    <div className="hero-actions fade-in-up delay-4">
+                        <a href="#projects" className="btn btn-primary">
+                            Explore Projects
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </a>
-                        <a href="#contact" className="btn btn-outline">
-                            <span>Get In Touch</span>
-                        </a>
-                        <a href="/cv.pdf" download="Yuvraj_Singh_CV.pdf" className="btn btn-outline">
-                            <span>Download CV</span>
-                            <span className="btn-arrow">↓</span>
+                        <a href="#contact" className="btn btn-secondary">
+                            Get in Touch
                         </a>
                     </div>
+                </div>
 
-                    <div className="hero-stats fade-in-up delay-6">
-                        <div className="stat">
-                            <div className="stat-number">50+</div>
-                            <div className="stat-label">Projects</div>
-                        </div>
-                        <div className="stat-divider"></div>
-                        <div className="stat">
-                            <div className="stat-number">1</div>
-                            <div className="stat-label">Year</div>
-                        </div>
-                        <div className="stat-divider"></div>
-                        <div className="stat">
-                            <div className="stat-number">30+</div>
-                            <div className="stat-label">Problems Solved</div>
-                        </div>
+                <div className="hero-stats-grid fade-in-up delay-5">
+                    <div className="hero-stat-card">
+                        <span className="stat-value text-gradient">2+</span>
+                        <span className="stat-label">Years of Experience</span>
+                    </div>
+                    <div className="hero-stat-card">
+                        <span className="stat-value text-gradient">50+</span>
+                        <span className="stat-label">Projets Completed</span>
+                    </div>
+                    <div className="hero-stat-card">
+                        <span className="stat-value text-gradient">30+</span>
+                        <span className="stat-label">Happy Clients</span>
                     </div>
                 </div>
             </div>
 
-            <div className="scroll-indicator">
-                <div className="scroll-line"></div>
-                <span>Scroll</span>
+            <div className="hero-scroll-indicator">
+                <div className="mouse">
+                    <div className="wheel"></div>
+                </div>
+                <span>Scroll Down</span>
             </div>
         </section>
     );

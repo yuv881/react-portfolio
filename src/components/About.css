@@ -1,254 +1,210 @@
 .about {
-    background: var(--color-bg-secondary);
-    position: relative;
-}
-
-.about-content {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 5rem;
-    align-items: start;
-}
-
-/* About Image */
-.about-image {
-    position: sticky;
-    top: 120px;
-}
-
-.image-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-.image-placeholder {
-    width: 100%;
-    aspect-ratio: 1;
-    background: var(--color-bg-elevated);
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    transition: all var(--transition-slow);
-}
-
-.image-placeholder:hover {
-    border-color: var(--color-border-hover);
-    transform: scale(1.02);
-}
-
-.avatar-icon {
-    font-size: 8rem;
-    filter: grayscale(100%);
-    transition: all var(--transition-slow);
-}
-
-.image-placeholder:hover .avatar-icon {
-    filter: grayscale(0%);
-    transform: scale(1.1);
-}
-
-.image-decoration {
-    position: absolute;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    transition: all var(--transition-slow);
-}
-
-.decoration-1 {
-    width: 110%;
-    height: 110%;
-    top: -5%;
-    left: -5%;
-}
-
-.decoration-2 {
-    width: 120%;
-    height: 120%;
-    top: -10%;
-    left: -10%;
-}
-
-.image-placeholder:hover .decoration-1 {
-    transform: translate(8px, -8px);
-}
-
-.image-placeholder:hover .decoration-2 {
-    transform: translate(-8px, 8px);
-}
-
-/* About Text */
-.about-subtitle {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: var(--color-text-primary);
-    font-weight: 700;
-    line-height: 1.3;
-}
-
-.about-description {
-    color: var(--color-text-secondary);
-    font-size: 1.0625rem;
-    line-height: 1.8;
-    margin-bottom: 1.5rem;
-}
-
-/* Skills Grid */
-.skills-grid {
-    margin: 3rem 0;
-    display: grid;
-    gap: 1.5rem;
-}
-
-.skill-item {
-    opacity: 0;
-    transition: all var(--transition-normal);
-}
-
-.skill-item:hover {
-    transform: translateX(4px);
-}
-
-.skill-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;
-    align-items: center;
-}
-
-.skill-name {
-    font-weight: 600;
-    color: var(--color-text-primary);
-    font-size: 0.9375rem;
-}
-
-.skill-percentage {
-    color: var(--color-text-tertiary);
-    font-weight: 700;
-    font-size: 0.875rem;
-    font-family: var(--font-display);
-}
-
-.skill-bar {
-    height: 6px;
     background: var(--color-bg-primary);
-    border-radius: 3px;
     overflow: hidden;
-    position: relative;
-    border: 1px solid var(--color-border);
 }
 
-.skill-progress {
-    height: 100%;
-    background: var(--color-accent);
-    border-radius: 3px;
-    position: relative;
-    width: 0;
-    animation: fillBar 1.5s ease forwards;
-    transition: all var(--transition-normal);
-}
-
-.skill-item:hover .skill-progress {
-    background: var(--color-text-primary);
-}
-
-@keyframes fillBar {
-    from {
-        width: 0;
-    }
-}
-
-/* Stats */
-.about-stats {
+.about-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-top: 3rem;
-    padding-top: 3rem;
-    border-top: 1px solid var(--color-border);
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 6rem;
+    align-items: center;
 }
 
-.stat-item {
-    text-align: center;
-    padding: 2rem 1.5rem;
-    background: var(--color-bg-elevated);
-    border: 1px solid var(--color-border);
+.about-visual {
+    position: relative;
+}
+
+.profile-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 1;
+    z-index: 2;
+    box-shadow: var(--shadow-xl);
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--transition-normal);
+}
+
+.profile-card:hover .profile-img {
+    transform: scale(1.05);
+}
+
+.experience-badge {
+    position: absolute;
+    bottom: 2rem;
+    right: -2rem;
+    background: var(--color-accent);
+    color: var(--color-bg-primary);
+    padding: 1.5rem;
     border-radius: var(--radius-md);
-    transition: all var(--transition-normal);
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 10px 30px var(--color-accent-glow);
+    z-index: 3;
 }
 
-.stat-item:hover {
-    transform: translateY(-4px);
-    border-color: var(--color-border-hover);
-    box-shadow: var(--shadow-md);
-}
-
-.stat-number {
-    font-size: 3rem;
-    font-weight: 900;
-    color: var(--color-text-primary);
-    margin-bottom: 0.5rem;
-    font-family: var(--font-display);
+.experience-badge .years {
+    font-size: 2.5rem;
+    font-weight: 800;
     line-height: 1;
 }
 
-.stat-label {
+.experience-badge .text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+}
+
+.visual-decoration {
+    position: absolute;
+    top: -2rem;
+    left: -2rem;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-lg);
+    z-index: 1;
+}
+
+.section-header-left {
+    margin-bottom: 2rem;
+}
+
+.section-subtitle-top {
+    color: var(--color-accent);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    font-size: 0.875rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.section-title-left {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+}
+
+.about-para {
+    color: var(--color-text-secondary);
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+}
+
+.skills-mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.skill-item-v2 {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.skill-bar-v2 {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.skill-progress-v2 {
+    height: 100%;
+    background: var(--color-accent-gradient);
+    width: 0;
+    transition: width 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.skill-progress-v2.animated {
+    width: var(--target-width);
+}
+
+.about-stats-v2 {
+    display: flex;
+    gap: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text-primary);
+    font-family: var(--font-display);
+}
+
+.stat-desc {
     color: var(--color-text-tertiary);
     font-size: 0.875rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 600;
+    letter-spacing: 0.1em;
 }
 
-/* Responsive */
-@media (max-width: 968px) {
-    .about-content {
+@media (max-width: 1024px) {
+    .about-grid {
         grid-template-columns: 1fr;
-        gap: 3rem;
+        gap: 4rem;
+        text-align: center;
     }
 
-    .about-image {
-        position: static;
+    .about-visual {
+        max-width: 400px;
+        margin: 0 auto;
     }
 
-    .image-wrapper {
-        max-width: 300px;
+    .experience-badge {
+        right: -1rem;
     }
 
-    .avatar-icon {
-        font-size: 6rem;
+    .section-header-left {
+        text-align: center;
     }
 
-    .about-stats {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
+    .skills-mini-grid {
+        text-align: left;
     }
 
-    .stat-item {
-        padding: 1.5rem 1rem;
-    }
-
-    .stat-number {
-        font-size: 2rem;
+    .about-stats-v2 {
+        justify-content: center;
     }
 }
 
 @media (max-width: 640px) {
-    .about-stats {
+    .skills-mini-grid {
         grid-template-columns: 1fr;
     }
 
-    .image-wrapper {
-        max-width: 250px;
+    .experience-badge {
+        padding: 1rem;
+        bottom: 1rem;
+        right: 0;
     }
 
-    .avatar-icon {
-        font-size: 5rem;
+    .experience-badge .years {
+        font-size: 1.75rem;
     }
 }

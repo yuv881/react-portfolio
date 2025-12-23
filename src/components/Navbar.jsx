@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './Navbar.css';
 
 const Navbar = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('home');
 
@@ -29,19 +30,31 @@ const Navbar = () => {
     const scrollToSection = (sectionId) => {
         const element = document.getElementById(sectionId);
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            const offset = 80;
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = element.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
         }
+        setIsMenuOpen(false);
     };
 
     return (
-        <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+        <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${isMenuOpen ? 'menu-open' : ''}`}>
             <div className="navbar-container container">
-                <div className="navbar-logo">
+                <div className="navbar-logo" onClick={() => scrollToSection('home')}>
                     <span className="logo-text">Portfolio</span>
                     <span className="logo-dot">.</span>
                 </div>
 
-                <ul className="navbar-menu">
+                <div className={`navbar-menu-overlay ${isMenuOpen ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}></div>
+
+                <ul className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
                     {['home', 'about', 'projects', 'skills', 'contact'].map((item) => (
                         <li key={item}>
                             <a
@@ -56,7 +69,23 @@ const Navbar = () => {
                             </a>
                         </li>
                     ))}
+                    <li className="mobile-only">
+                        <a href="#contact" className="btn btn-primary menu-btn" onClick={(e) => {
+                            e.preventDefault();
+                            scrollToSection('contact');
+                        }}>Contact Me</a>
+                    </li>
                 </ul>
+
+                <button
+                    className={`menu-toggle ${isMenuOpen ? 'active' : ''}`}
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    aria-label="Toggle menu"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </nav>
     );
