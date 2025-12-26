@@ -33,61 +33,93 @@ const Skills = () => {
     ];
 
     useEffect(() => {
-        const ctx = gsap.context(() => {
-            // Animate headers
+        const section = sectionRef.current;
+        const mm = gsap.matchMedia();
+
+        mm.add("(min-width: 769px)", () => {
+            const ctx = gsap.context(() => {
+                // Animate headers
+                gsap.from('.section-header > *', {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1.2,
+                    stagger: 0.2,
+                    ease: 'power4.out',
+                    scrollTrigger: {
+                        trigger: '.section-header',
+                        start: 'top 85%'
+                    }
+                });
+
+                // Animate skill boxes with a staggered scroll effect
+                const boxes = gsap.utils.toArray('.skill-box');
+                boxes.forEach((box, i) => {
+                    const isEven = i % 2 === 0;
+
+                    gsap.fromTo(box,
+                        {
+                            opacity: 0,
+                            y: 100,
+                            x: isEven ? -30 : 30
+                        },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            x: 0,
+                            duration: 1.5,
+                            ease: 'expo.out',
+                            scrollTrigger: {
+                                trigger: box,
+                                start: 'top 90%',
+                                end: 'top 60%',
+                                scrub: 1,
+                            }
+                        }
+                    );
+
+                    // Internal text parallax effect
+                    gsap.from(box.querySelector('.skill-body'), {
+                        y: 40,
+                        opacity: 0,
+                        duration: 1,
+                        scrollTrigger: {
+                            trigger: box,
+                            start: 'top 80%',
+                            toggleActions: 'play none none none'
+                        }
+                    });
+                });
+            }, section);
+        });
+
+        mm.add("(max-width: 768px)", () => {
             gsap.from('.section-header > *', {
-                y: 50,
+                y: 30,
                 opacity: 0,
-                duration: 1.2,
-                stagger: 0.2,
-                ease: 'power4.out',
+                duration: 1,
+                stagger: 0.1,
                 scrollTrigger: {
                     trigger: '.section-header',
-                    start: 'top 85%'
+                    start: 'top 90%'
                 }
             });
 
-            // Animate skill boxes with a staggered scroll effect
             const boxes = gsap.utils.toArray('.skill-box');
-            boxes.forEach((box, i) => {
-                const isEven = i % 2 === 0;
-
-                gsap.fromTo(box,
-                    {
-                        opacity: 0,
-                        y: 100,
-                        x: isEven ? -30 : 30
-                    },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        x: 0,
-                        duration: 1.5,
-                        ease: 'expo.out',
-                        scrollTrigger: {
-                            trigger: box,
-                            start: 'top 90%',
-                            end: 'top 60%',
-                            scrub: 1,
-                        }
-                    }
-                );
-
-                // Internal text parallax effect
-                gsap.from(box.querySelector('.skill-body'), {
-                    y: 40,
+            boxes.forEach((box) => {
+                gsap.from(box, {
                     opacity: 0,
+                    y: 40,
                     duration: 1,
                     scrollTrigger: {
                         trigger: box,
-                        start: 'top 80%',
+                        start: 'top 90%',
                         toggleActions: 'play none none none'
                     }
                 });
             });
-        }, sectionRef);
+        });
 
-        return () => ctx.revert();
+        return () => mm.revert();
     }, []);
 
     return (

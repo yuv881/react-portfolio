@@ -1,23 +1,15 @@
 import { useState, useEffect } from 'react';
-import gsap from 'gsap';
 import './Navbar.css';
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
-    const [activeSection, setActiveSection] = useState('home');
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+    const [activeSection, setActiveSection] = useState('home');
 
     useEffect(() => {
-        // Initialize theme
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
-
-        gsap.from('.navbar', {
-            y: -20,
-            opacity: 0,
-            duration: 1.2,
-            ease: 'expo.out'
-        });
 
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
@@ -27,7 +19,7 @@ const Navbar = () => {
                 const element = document.getElementById(section);
                 if (element) {
                     const rect = element.getBoundingClientRect();
-                    return rect.top <= 100 && rect.bottom >= 100;
+                    return rect.top <= 150 && rect.bottom >= 150;
                 }
                 return false;
             });
@@ -39,11 +31,17 @@ const Navbar = () => {
     }, [theme]);
 
     const toggleTheme = () => {
-        const newTheme = theme === 'dark' ? 'light' : 'dark';
-        setTheme(newTheme);
+        setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    };
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+        document.body.style.overflow = !isMenuOpen ? 'hidden' : 'auto';
     };
 
     const scrollToSection = (id) => {
+        setIsMenuOpen(false);
+        document.body.style.overflow = 'auto';
         const el = document.getElementById(id);
         if (el) {
             window.scrollTo({
@@ -53,41 +51,84 @@ const Navbar = () => {
         }
     };
 
-    return (
-        <nav className={`navbar-mono ${scrolled ? 'scrolled' : ''}`}>
-            <div className="container nav-container-mono">
-                <div className="nav-logo-mono" onClick={() => scrollToSection('home')}>
-                    YUVRAJ<span className="dot-mono">S.</span>
-                </div>
+    const menuItems = [
+        { id: 'about', label: 'About' },
+        { id: 'projects', label: 'Projects' },
+        { id: 'skills', label: 'Skills' },
+        { id: 'contact', label: 'Contact' }
+    ];
 
-                <ul className="nav-links-mono">
-                    {['about', 'projects', 'skills', 'contact'].map(item => (
-                        <li key={item}>
+    return (
+        <>
+            <nav className={`nav-cinematic ${scrolled ? 'scrolled' : ''}`}>
+                <div className="nav-inner">
+                    <div className="nav-brand" onClick={() => scrollToSection('home')}>
+                        <span className="brand-name">YUVRAJ</span>
+                    </div>
+
+                    <div className="nav-desktop-links">
+                        {['about', 'projects', 'skills', 'contact'].map(item => (
                             <button
-                                className={`nav-item-mono ${activeSection === item ? 'active' : ''}`}
+                                key={item}
+                                className={`nav-link-item ${activeSection === item ? 'active' : ''}`}
                                 onClick={() => scrollToSection(item)}
                             >
                                 {item}
-                                <span className="nav-dot"></span>
                             </button>
-                        </li>
-                    ))}
-                </ul>
+                        ))}
+                    </div>
 
-                <div className="nav-actions">
-                    <button className="theme-toggle-btn" onClick={toggleTheme} aria-label="Toggle Theme">
-                        {theme === 'dark' ? (
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                        ) : (
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                        )}
-                    </button>
-                    <button className="btn-mono nav-hire-btn-small" onClick={() => scrollToSection('contact')}>
-                        Hire Me
-                    </button>
+                    <div className="nav-actions">
+                        <button className="theme-btn" onClick={toggleTheme} aria-label="Toggle Theme">
+                            {theme === 'dark' ? (
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>
+                            ) : (
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                                </svg>
+                            )}
+                        </button>
+                        <button className={`burger-lux ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+                            <div className="burger-lux-box">
+                                <div className="burger-lux-inner"></div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <div className={`menu-overlay-lux ${isMenuOpen ? 'active' : ''}`}>
+                <div className="menu-overlay-bg"></div>
+                <div className="menu-overlay-content">
+                    <div className="menu-header">
+                        <div className="menu-line"></div>
+                    </div>
+
+                    <ul className="menu-nav-list">
+                        {menuItems.map((item, i) => (
+                            <li key={item.id} style={{ transitionDelay: `${0.2 + i * 0.1}s` }}>
+                                <button className="menu-nav-item" onClick={() => scrollToSection(item.id)}>
+                                    <span className="item-index">0{i + 1}</span>
+                                    <span className="item-label">{item.label}</span>
+                                    <span className="item-sub">{item.sub}</span>
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <div className="menu-footer">
+                        <div className="menu-footer-left">
+                            <span className="footer-label">SOCIAL</span>
+                            <div className="footer-links">
+                                <a href="#">LinkedIn</a>
+                                <a href="#">Github</a>
+                                <a href="#">Twitter</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </>
     );
 };
 

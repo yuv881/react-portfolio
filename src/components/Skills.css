@@ -126,11 +126,29 @@
 }
 
 @media (max-width: 768px) {
+    .skills {
+        padding: 5rem 0;
+    }
+
+    .section-header {
+        margin-bottom: 4rem;
+    }
+
     .section-title {
-        font-size: 3.5rem;
+        font-size: clamp(2.5rem, 10vw, 3.5rem);
+    }
+
+    .skill-box {
+        padding: 3rem 1.5rem;
+        min-height: auto;
     }
 
     .skill-title {
-        font-size: 2.2rem;
+        font-size: 2rem;
+    }
+
+    .skill-desc {
+        font-size: 1rem;
+        max-width: 100%;
     }
 }

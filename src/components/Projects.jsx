@@ -47,81 +47,80 @@ const Projects = () => {
     useEffect(() => {
         const wrapper = wrapperRef.current;
         const section = sectionRef.current;
+        const mm = gsap.matchMedia();
 
-        const ctx = gsap.context(() => {
+        mm.add("(min-width: 969px)", () => {
             const calculateX = () => {
                 const winWidth = window.innerWidth;
                 const firstSlide = wrapper.querySelector('.slide-intro');
                 const lastSlide = wrapper.querySelector('.slide-outro');
 
                 if (!firstSlide || !lastSlide) return { startX: 0, endX: 0 };
-
-                // Perfect centering: (Viewport Center) - (Element Center within Wrapper)
                 const startX = (winWidth / 2) - (firstSlide.offsetLeft + firstSlide.offsetWidth / 2);
                 const endX = (winWidth / 2) - (lastSlide.offsetLeft + lastSlide.offsetWidth / 2);
-
                 return { startX, endX };
             };
 
-            const initScroll = () => {
-                const { startX, endX } = calculateX();
+            const { startX, endX } = calculateX();
 
-                // Explicit fromTo to prevent any initial layout flickering
-                const horizontalTween = gsap.fromTo(wrapper,
-                    { x: startX },
-                    {
-                        x: endX,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: section,
-                            pin: true,
-                            scrub: 1,
-                            start: "top top",
-                            end: () => `+=${Math.abs(endX - startX)}`,
-                            invalidateOnRefresh: true,
-                            anticipatePin: 1,
-                        }
+            const horizontalTween = gsap.fromTo(wrapper,
+                { x: startX },
+                {
+                    x: endX,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: section,
+                        pin: true,
+                        scrub: 1,
+                        start: "top top",
+                        end: () => `+=${Math.abs(endX - startX)}`,
+                        invalidateOnRefresh: true,
+                        anticipatePin: 1,
                     }
-                );
+                }
+            );
 
-                // Reveal animations for project items
-                gsap.utils.toArray('.project-item-horizontal').forEach((item) => {
-                    gsap.from(item, {
-                        opacity: 0,
-                        y: 50,
-                        duration: 1,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: item,
-                            containerAnimation: horizontalTween,
-                            start: "left 95%",
-                        }
-                    });
+            gsap.utils.toArray('.project-item-horizontal').forEach((item) => {
+                gsap.from(item, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: item,
+                        containerAnimation: horizontalTween,
+                        start: "left 95%",
+                    }
                 });
+            });
+
+            return () => {
+                ScrollTrigger.getAll().forEach(t => t.kill());
             };
+        });
 
-            // Use a small delay to ensure React finishes DOM updates
-            const timer = setTimeout(() => {
-                initScroll();
-                ScrollTrigger.refresh();
-            }, 100);
+        // Mobile Animations
+        mm.add("(max-width: 968px)", () => {
+            gsap.utils.toArray('.project-item-horizontal').forEach((item) => {
+                gsap.from(item, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 80%",
+                        toggleActions: 'play none none none'
+                    }
+                });
+            });
+        });
 
-            return () => clearTimeout(timer);
-        }, sectionRef);
-
-        const handleResize = () => {
-            ScrollTrigger.refresh();
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => {
-            ctx.revert();
-            window.removeEventListener('resize', handleResize);
-        };
+        return () => mm.revert();
     }, []);
 
     return (
-        <section id="projects" className="projects-horizontal-container" ref={sectionRef}>
+        <section id="projects" className="projects-section" ref={sectionRef}>
             <div className="projects-wrapper" ref={wrapperRef}>
                 {/* Intro Slide */}
                 <div className="project-item-horizontal slide-intro">
