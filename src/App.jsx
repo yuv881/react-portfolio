@@ -1,4 +1,3 @@
-import './index.css';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -10,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react"
 function App() {
   return (
     <div className="app">
+      <div className="noise-overlay"></div>
       <SpeedInsights />
       <Navbar />
       <Hero />

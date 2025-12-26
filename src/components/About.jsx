@@ -1,107 +1,61 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
 import './About.css';
 import profileImg from '../assets/profile.jpeg';
 
 const About = () => {
-    const [hasAnimated, setHasAnimated] = useState(false);
-    const [counters, setCounters] = useState({ projects: 0, experience: 0, solutions: 0 });
-    const statsRef = useRef(null);
-
-    const skills = [
-        { name: 'Core Architecture', level: 95 },
-        { name: 'Frontend Excellence', level: 90 },
-        { name: 'Backend Scalability', level: 85 },
-        { name: 'UI/UX Design', level: 80 }
-    ];
+    const sectionRef = useRef(null);
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting && !hasAnimated) {
-                    setHasAnimated(true);
-                    animateCounters();
+        const ctx = gsap.context(() => {
+            gsap.from('.about-text-content > *', {
+                opacity: 0,
+                x: 30,
+                duration: 1,
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top 80%',
                 }
-            },
-            { threshold: 0.5 }
-        );
-
-        if (statsRef.current) observer.observe(statsRef.current);
-        return () => observer.disconnect();
-    }, [hasAnimated]);
-
-    const animateCounters = () => {
-        const duration = 2000;
-        const frames = 60;
-        const interval = duration / frames;
-
-        let frame = 0;
-        const timer = setInterval(() => {
-            frame++;
-            const progress = frame / frames;
-
-            setCounters({
-                projects: Math.floor(progress * 50),
-                experience: Math.floor(progress * 2),
-                solutions: Math.floor(progress * 30)
             });
+        }, sectionRef);
 
-            if (frame === frames) clearInterval(timer);
-        }, interval);
-    };
+        return () => ctx.revert();
+    }, []);
 
     return (
-        <section id="about" className="about section">
+        <section id="about" className="about-minimal section" ref={sectionRef}>
             <div className="container">
-                <div className="about-grid">
-                    <div className="about-visual fade-in-left">
-                        <div className="profile-card">
-                            <img src={profileImg} alt="Profile" className="profile-img" />
-                            <div className="experience-badge">
-                                <span className="years">1</span>
-                                <span className="text">Year of<br />Experience</span>
-                            </div>
-                        </div>
-                        <div className="visual-decoration"></div>
+                <div className="about-grid-mono">
+                    <div className="about-img-mono">
+                        <img src={profileImg} alt="Profile" />
                     </div>
 
-                    <div className="about-content fade-in-right">
-                        <div className="section-header-left">
-                            <span className="section-subtitle-top">My Story</span>
-                            <h2 className="section-title-left">Driven by <span className="gradient-text">Innovation</span></h2>
-                        </div>
+                    <div className="about-text-content">
+                        <span className="section-subtitle-top" style={{ color: 'var(--text-dim)' }}>Who I am /</span>
+                        <h2>A developer driven by <span className="outline-text">Architecture</span> and Clarity.</h2>
 
-                        <p className="about-para">
-                            I am a dedicated Full Stack Developer with a passion for building
-                            seamless digital experiences. My approach combines technical
-                            rigor with creative thinking, ensuring every project is both
-                            scalable and user-friendly.
+                        <p className="about-para-mono">
+                            I specialize in building robust digital products. My philosophy is rooted in
+                            intentionality—every line of code and every design choice should serve a purpose.
                         </p>
 
-                        <div className="skills-mini-grid">
-                            {skills.map((skill, index) => (
-                                <div key={skill.name} className="skill-item-v2">
-                                    <div className="skill-info">
-                                        <span className="skill-name">{skill.name}</span>
-                                        <span className="skill-percentage">{skill.level}%</span>
-                                    </div>
-                                    <div className="skill-bar-v2">
-                                        <div
-                                            className={`skill-progress-v2 ${hasAnimated ? 'animated' : ''}`}
-                                            style={{ '--target-width': `${skill.level}%`, animationDelay: `${index * 0.1}s` }}
-                                        ></div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="about-stats-v2" ref={statsRef}>
-                            <div className="stat-box">
-                                <span className="stat-num">{counters.projects}+</span>
-                                <span className="stat-desc">Projects Done</span>
+                        <div className="about-stats-grid">
+                            <div className="stat-item-mono">
+                                <span className="stat-val-mono">01+</span>
+                                <span className="stat-label-mono">Years Exp.</span>
                             </div>
-                            <div className="stat-box">
-                                <span className="stat-num">{counters.solutions}+</span>
-                                <span className="stat-desc">Solutions Built</span>
+                            <div className="stat-item-mono">
+                                <span className="stat-val-mono">20+</span>
+                                <span className="stat-label-mono">Cases Done</span>
+                            </div>
+                            <div className="stat-item-mono">
+                                <span className="stat-val-mono">30+</span>
+                                <span className="stat-label-mono">Solutions</span>
+                            </div>
+                            <div className="stat-item-mono">
+                                <span className="stat-val-mono">100%</span>
+                                <span className="stat-label-mono">Digital Focus</span>
                             </div>
                         </div>
                     </div>
