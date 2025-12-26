@@ -265,6 +265,12 @@
     }
 }
 
+@media (max-width: 568px) {
+    .p-title-h {
+        font-size: 4.5rem;
+    }
+}
+
 @media (max-width: 480px) {
     .project-item-horizontal {
         width: 90vw;
@@ -278,6 +284,6 @@
     }
 
     .p-title-h {
-        font-size: 4rem;
+        font-size: 3rem;
     }
 }
