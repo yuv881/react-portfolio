@@ -115,9 +115,14 @@
 
 /* Mobile Horizontal Scroll Design Refinement */
 @media (max-width: 968px) {
+    .section-subtitle-top {
+        margin-bottom: 0 !important;
+    }
+
     .skills {
-        padding: 0;
-        height: 100vh;
+        padding: 8vh 0;
+        height: auto;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -134,8 +139,9 @@
         display: flex;
         flex-wrap: nowrap;
         border: none;
-        width: 100%;
-        padding-left: 2rem;
+        width: max-content;
+        /* Critical: allow it to expand */
+        padding: 0 2rem 0 2rem;
     }
 
     .skill-box {
@@ -149,6 +155,8 @@
         backdrop-filter: blur(10px);
         justify-content: flex-start;
         align-items: flex-start;
+        overflow: visible;
+        /* Allow decorative elements to bleed out */
     }
 
     .skill-top {

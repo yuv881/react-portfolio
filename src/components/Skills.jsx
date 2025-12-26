@@ -40,21 +40,37 @@ const Skills = () => {
         mm.add("(max-width: 968px)", () => {
             const boxes = gsap.utils.toArray('.skill-box');
 
-            // GSAP Horizontal Scroll Track
-            gsap.to(boxes, {
-                xPercent: -100 * (boxes.length - 1) - (10 * (boxes.length - 1)), // factor in the margin
-                ease: "none",
-                scrollTrigger: {
-                    trigger: section,
-                    pin: true,
-                    scrub: 1,
-                    start: "top top",
-                    end: "+=2000",
-                    invalidateOnRefresh: true,
-                }
-            });
+            // DYNAMIC CENTERING LOGIC - PIXEL PERFECT
+            const calculateX = () => {
+                const winWidth = window.innerWidth;
+                const totalWidth = grid.scrollWidth;
 
-            // individual content animation within cards
+                // We want to scroll until the right edge of the last box plus some padding is visible
+                const endX = -(totalWidth - winWidth + 40); // 40px for right-side safety margin
+
+                return { startX: 0, endX };
+            };
+
+            const { startX, endX } = calculateX();
+
+            gsap.fromTo(grid,
+                { x: 0 },
+                {
+                    x: endX,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: section,
+                        pin: true,
+                        scrub: 1,
+                        start: "top top",
+                        end: () => `+=${Math.abs(endX)}`, // Proportional scroll length
+                        invalidateOnRefresh: true,
+                        anticipatePin: 1,
+                    }
+                }
+            );
+
+            // Staggered reveal for internal content
             boxes.forEach((box) => {
                 gsap.from(box.querySelectorAll('.skill-body > *'), {
                     y: 20,
@@ -62,7 +78,7 @@ const Skills = () => {
                     stagger: 0.1,
                     scrollTrigger: {
                         trigger: box,
-                        start: "left 80%",
+                        start: "left 90%",
                         toggleActions: "play none none reverse"
                     }
                 });
@@ -88,8 +104,8 @@ const Skills = () => {
 
     return (
         <section id="skills" className="skills section" ref={sectionRef}>
-            <div className="container overflow-visible-mobile">
-                <div className="section-header">
+            <div className="container overflow-visible-mobile" style={{ maxWidth: '100%', padding: '0' }}>
+                <div className="section-header" style={{ paddingLeft: '2rem' }}>
                     <span className="section-subtitle-top" style={{ color: 'var(--text-dim)' }}>Expertise /</span>
                     <h2 className="section-title">Technical <span className="outline-text">Expertise.</span></h2>
                 </div>
