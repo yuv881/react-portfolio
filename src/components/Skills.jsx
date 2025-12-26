@@ -34,61 +34,52 @@ const Skills = () => {
 
     useEffect(() => {
         const section = sectionRef.current;
+        const grid = gridRef.current;
         const mm = gsap.matchMedia();
 
-        mm.add("(min-width: 0px)", () => {
-            // Shared header animation
-            gsap.from('.section-header > *', {
-                y: 50,
-                opacity: 0,
-                duration: 1.2,
-                stagger: 0.2,
-                ease: 'power4.out',
+        mm.add("(max-width: 968px)", () => {
+            const boxes = gsap.utils.toArray('.skill-box');
+
+            // GSAP Horizontal Scroll Track
+            gsap.to(boxes, {
+                xPercent: -100 * (boxes.length - 1) - (10 * (boxes.length - 1)), // factor in the margin
+                ease: "none",
                 scrollTrigger: {
-                    trigger: '.section-header',
-                    start: 'top 85%'
+                    trigger: section,
+                    pin: true,
+                    scrub: 1,
+                    start: "top top",
+                    end: "+=2000",
+                    invalidateOnRefresh: true,
                 }
             });
 
-            const boxes = gsap.utils.toArray('.skill-box');
-            boxes.forEach((box, i) => {
-                // Determine if we are on mobile to skip side-slide
-                const isMobile = window.innerWidth <= 768;
-                const isEven = i % 2 === 0;
-
-                gsap.fromTo(box,
-                    {
-                        opacity: 0,
-                        y: 80,
-                        x: isMobile ? 0 : (isEven ? -30 : 30)
-                    },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        x: 0,
-                        duration: 1.5,
-                        ease: 'expo.out',
-                        scrollTrigger: {
-                            trigger: box,
-                            start: 'top 95%',
-                            end: 'top 70%',
-                            scrub: isMobile ? false : 1, // Keep it punchy on mobile
-                            toggleActions: isMobile ? 'play none none none' : undefined
-                        }
-                    }
-                );
-
-                // Internal text reveal on scroll - Great "scrolling effect"
-                gsap.from(box.querySelector('.skill-body'), {
-                    y: 30,
+            // individual content animation within cards
+            boxes.forEach((box) => {
+                gsap.from(box.querySelectorAll('.skill-body > *'), {
+                    y: 20,
                     opacity: 0,
-                    duration: 1,
+                    stagger: 0.1,
                     scrollTrigger: {
                         trigger: box,
-                        start: 'top 85%',
-                        toggleActions: 'play none none none'
+                        start: "left 80%",
+                        toggleActions: "play none none reverse"
                     }
                 });
+            });
+        });
+
+        mm.add("(min-width: 969px)", () => {
+            gsap.from('.skill-box', {
+                y: 80,
+                opacity: 0,
+                stagger: 0.15,
+                duration: 1.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '.skills-grid',
+                    start: 'top 80%'
+                }
             });
         });
 
@@ -97,7 +88,7 @@ const Skills = () => {
 
     return (
         <section id="skills" className="skills section" ref={sectionRef}>
-            <div className="container">
+            <div className="container overflow-visible-mobile">
                 <div className="section-header">
                     <span className="section-subtitle-top" style={{ color: 'var(--text-dim)' }}>Expertise /</span>
                     <h2 className="section-title">Technical <span className="outline-text">Expertise.</span></h2>
@@ -105,7 +96,7 @@ const Skills = () => {
 
                 <div className="skills-grid" ref={gridRef}>
                     {expertise.map((item, i) => (
-                        <div key={i} className="skill-box">
+                        <div key={i} className="skill-box" data-index={`0${i + 1}`}>
                             <div className="skill-top">
                                 <span className="skill-number">0{i + 1}</span>
                                 <div className="skill-icon-line"></div>

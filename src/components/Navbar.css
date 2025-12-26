@@ -349,17 +349,30 @@
     }
 
     .menu-overlay-content {
-        padding: 12vh 2rem 5vh;
+        padding: 10vh 2rem 10vh;
+        /* More balanced padding */
+        overflow-y: auto;
+        /* Allow scrolling if content is too tall */
+    }
+
+    .menu-nav-list {
+        margin-bottom: 3rem;
+        /* Fixed gap instead of auto to push footer up */
     }
 
     .menu-footer {
         flex-direction: column;
         align-items: flex-start;
-        gap: 4rem;
+        gap: 3rem;
+        padding-top: 3rem;
+        padding-bottom: 2rem;
     }
 
     .menu-cv-btn {
         width: 100%;
         justify-content: center;
+        padding: 1rem 1.5rem;
+        /* Slightly more compact for mobile */
+        font-size: 0.9rem;
     }
 }

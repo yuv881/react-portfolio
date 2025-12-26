@@ -44,7 +44,7 @@
 }
 
 .skill-box:hover {
-    background: var(--border-dim);
+    background: var(--bg-secondary);
 }
 
 .skill-top {
@@ -111,44 +111,98 @@
 .skill-box:hover .skill-tag {
     border-color: var(--text-main);
     color: var(--text-main);
-    background: var(--border-dim);
 }
 
-@media (max-width: 1024px) {
-    .skills-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .skill-box {
-        padding: 4rem 3rem;
-        min-height: auto;
-    }
-}
-
-@media (max-width: 768px) {
+/* Mobile Horizontal Scroll Design Refinement */
+@media (max-width: 968px) {
     .skills {
-        padding: 5rem 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
     }
 
     .section-header {
         margin-bottom: 4rem;
+        padding: 0 2rem;
+        margin-top: -10vh;
     }
 
-    .section-title {
-        font-size: clamp(2.5rem, 10vw, 3.5rem);
+    .skills-grid {
+        display: flex;
+        flex-wrap: nowrap;
+        border: none;
+        width: 100%;
+        padding-left: 2rem;
     }
 
     .skill-box {
-        padding: 3rem 1.5rem;
-        min-height: auto;
+        flex: 0 0 85vw;
+        /* Slightly less than full width to show next card */
+        margin-right: 5vw;
+        padding: 3rem;
+        min-height: 50vh;
+        border: 1px solid var(--border-dim);
+        background: var(--bg-secondary);
+        backdrop-filter: blur(10px);
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .skill-top {
+        margin-bottom: 2.5rem;
     }
 
     .skill-title {
-        font-size: 2rem;
+        font-size: clamp(2rem, 8vw, 2.5rem);
+        margin-bottom: 1.5rem;
     }
 
     .skill-desc {
-        font-size: 1rem;
+        font-size: 0.95rem;
         max-width: 100%;
+        margin-bottom: 2.5rem;
+        opacity: 0.8;
+    }
+
+    .skill-list {
+        margin-top: 0;
+        gap: 0.6rem;
+    }
+
+    .skill-tag {
+        font-size: 0.6rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    /* Background large number for mobile cards */
+    .skill-box::after {
+        content: attr(data-index);
+        position: absolute;
+        bottom: -2rem;
+        right: -1rem;
+        font-size: 15rem;
+        font-weight: 900;
+        font-family: var(--font-display);
+        opacity: 0.03;
+        pointer-events: none;
+        line-height: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-header {
+        margin-bottom: 3rem;
+    }
+
+    .skill-box {
+        flex: 0 0 90vw;
+        padding: 2.5rem 2rem;
+    }
+
+    .skill-title {
+        font-size: 1.8rem;
     }
 }
