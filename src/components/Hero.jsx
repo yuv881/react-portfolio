@@ -8,7 +8,7 @@ const Hero = () => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-    const titles = ['Full Stack Developer', 'Software Engineer', 'Creative Tech Enthusiast'];
+    const titles = ['Full Stack Developer', 'Python Developer', 'Machine Learning Enthusiast'];
 
     // Mouse tracking
     useEffect(() => {
@@ -147,10 +147,6 @@ const Hero = () => {
 
             <div className="hero-content container">
                 <div className="hero-main">
-                    <div className="hero-badge fade-in-up">
-                        <span className="badge-dot pulse"></span>
-                        Available for new opportunities
-                    </div>
 
                     <h1 className="hero-title fade-in-up delay-1">
                         Designing the future of <span className="gradient-text">Web Apps</span>
@@ -180,16 +176,16 @@ const Hero = () => {
 
                 <div className="hero-stats-grid fade-in-up delay-5">
                     <div className="hero-stat-card">
-                        <span className="stat-value text-gradient">2+</span>
-                        <span className="stat-label">Years of Experience</span>
+                        <span className="stat-value text-gradient">1</span>
+                        <span className="stat-label">Year of Experience</span>
                     </div>
                     <div className="hero-stat-card">
-                        <span className="stat-value text-gradient">50+</span>
+                        <span className="stat-value text-gradient">20+</span>
                         <span className="stat-label">Projets Completed</span>
                     </div>
                     <div className="hero-stat-card">
                         <span className="stat-value text-gradient">30+</span>
-                        <span className="stat-label">Happy Clients</span>
+                        <span className="stat-label">Problem Solved on LeetCode</span>
                     </div>
                 </div>
             </div>

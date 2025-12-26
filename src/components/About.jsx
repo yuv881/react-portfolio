@@ -57,8 +57,8 @@ const About = () => {
                         <div className="profile-card">
                             <img src={profileImg} alt="Profile" className="profile-img" />
                             <div className="experience-badge">
-                                <span className="years">2+</span>
-                                <span className="text">Years of<br />Experience</span>
+                                <span className="years">1</span>
+                                <span className="text">Year of<br />Experience</span>
                             </div>
                         </div>
                         <div className="visual-decoration"></div>

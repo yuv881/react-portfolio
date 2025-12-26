@@ -26,7 +26,7 @@
 .profile-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.8s var(--transition-normal);
 }
 
@@ -37,7 +37,7 @@
 .experience-badge {
     position: absolute;
     bottom: 2rem;
-    right: -2rem;
+    right: -0.5rem;
     background: var(--color-accent);
     color: var(--color-bg-primary);
     padding: 1.5rem;
