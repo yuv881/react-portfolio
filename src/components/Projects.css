@@ -267,7 +267,7 @@
 
 @media (max-width: 568px) {
     .p-title-h {
-        font-size: 4.5rem;
+        font-size: 4rem;
     }
 }
 
@@ -283,7 +283,7 @@
         /* More square-ish for very small screens to show more image */
     }
 
-    .p-title-h {
-        font-size: 3rem;
+    h3.p-title-h {
+        font-size: 2.5rem;
     }
 }
