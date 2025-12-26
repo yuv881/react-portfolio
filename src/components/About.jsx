@@ -5,17 +5,47 @@ import profileImg from '../assets/profile.jpeg';
 
 const About = () => {
     const sectionRef = useRef(null);
+    const imgRef = useRef(null);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
+            // Text entrance animation
             gsap.from('.about-text-content > *', {
                 opacity: 0,
                 x: 30,
-                duration: 1,
+                duration: 1.2,
                 stagger: 0.1,
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: 'top 80%',
+                }
+            });
+
+            // Image Parallax on Scroll
+            gsap.fromTo(imgRef.current,
+                { y: 50, scale: 0.95 },
+                {
+                    y: -50,
+                    scale: 1,
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: true
+                    }
+                }
+            );
+
+            // Staggered Stats Entrance
+            gsap.from('.stat-item-mono', {
+                opacity: 0,
+                y: 30,
+                stagger: 0.15,
+                duration: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: '.about-stats-grid',
+                    start: 'top 90%'
                 }
             });
         }, sectionRef);
@@ -27,7 +57,7 @@ const About = () => {
         <section id="about" className="about-minimal section" ref={sectionRef}>
             <div className="container">
                 <div className="about-grid-mono">
-                    <div className="about-img-mono">
+                    <div className="about-img-mono" ref={imgRef}>
                         <img src={profileImg} alt="Profile" />
                     </div>
 

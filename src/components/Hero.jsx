@@ -33,8 +33,20 @@ const Hero = () => {
                     duration: 1
                 }, '-=0.8');
 
+            // Parallax Scroll for Background Text on ALL devices
             gsap.to(bgTextRef.current, {
-                x: -100,
+                x: -200,
+                scrollTrigger: {
+                    trigger: heroRef.current,
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1.5,
+                }
+            });
+
+            // Subtle parallax for title on scroll
+            gsap.to(titleRef.current, {
+                y: -50,
                 scrollTrigger: {
                     trigger: heroRef.current,
                     start: 'top top',

@@ -36,83 +36,56 @@ const Skills = () => {
         const section = sectionRef.current;
         const mm = gsap.matchMedia();
 
-        mm.add("(min-width: 769px)", () => {
-            const ctx = gsap.context(() => {
-                // Animate headers
-                gsap.from('.section-header > *', {
-                    y: 50,
-                    opacity: 0,
-                    duration: 1.2,
-                    stagger: 0.2,
-                    ease: 'power4.out',
-                    scrollTrigger: {
-                        trigger: '.section-header',
-                        start: 'top 85%'
-                    }
-                });
-
-                // Animate skill boxes with a staggered scroll effect
-                const boxes = gsap.utils.toArray('.skill-box');
-                boxes.forEach((box, i) => {
-                    const isEven = i % 2 === 0;
-
-                    gsap.fromTo(box,
-                        {
-                            opacity: 0,
-                            y: 100,
-                            x: isEven ? -30 : 30
-                        },
-                        {
-                            opacity: 1,
-                            y: 0,
-                            x: 0,
-                            duration: 1.5,
-                            ease: 'expo.out',
-                            scrollTrigger: {
-                                trigger: box,
-                                start: 'top 90%',
-                                end: 'top 60%',
-                                scrub: 1,
-                            }
-                        }
-                    );
-
-                    // Internal text parallax effect
-                    gsap.from(box.querySelector('.skill-body'), {
-                        y: 40,
-                        opacity: 0,
-                        duration: 1,
-                        scrollTrigger: {
-                            trigger: box,
-                            start: 'top 80%',
-                            toggleActions: 'play none none none'
-                        }
-                    });
-                });
-            }, section);
-        });
-
-        mm.add("(max-width: 768px)", () => {
+        mm.add("(min-width: 0px)", () => {
+            // Shared header animation
             gsap.from('.section-header > *', {
-                y: 30,
+                y: 50,
                 opacity: 0,
-                duration: 1,
-                stagger: 0.1,
+                duration: 1.2,
+                stagger: 0.2,
+                ease: 'power4.out',
                 scrollTrigger: {
                     trigger: '.section-header',
-                    start: 'top 90%'
+                    start: 'top 85%'
                 }
             });
 
             const boxes = gsap.utils.toArray('.skill-box');
-            boxes.forEach((box) => {
-                gsap.from(box, {
+            boxes.forEach((box, i) => {
+                // Determine if we are on mobile to skip side-slide
+                const isMobile = window.innerWidth <= 768;
+                const isEven = i % 2 === 0;
+
+                gsap.fromTo(box,
+                    {
+                        opacity: 0,
+                        y: 80,
+                        x: isMobile ? 0 : (isEven ? -30 : 30)
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        x: 0,
+                        duration: 1.5,
+                        ease: 'expo.out',
+                        scrollTrigger: {
+                            trigger: box,
+                            start: 'top 95%',
+                            end: 'top 70%',
+                            scrub: isMobile ? false : 1, // Keep it punchy on mobile
+                            toggleActions: isMobile ? 'play none none none' : undefined
+                        }
+                    }
+                );
+
+                // Internal text reveal on scroll - Great "scrolling effect"
+                gsap.from(box.querySelector('.skill-body'), {
+                    y: 30,
                     opacity: 0,
-                    y: 40,
                     duration: 1,
                     scrollTrigger: {
                         trigger: box,
-                        start: 'top 90%',
+                        start: 'top 85%',
                         toggleActions: 'play none none none'
                     }
                 });

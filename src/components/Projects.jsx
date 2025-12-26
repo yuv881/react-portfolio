@@ -49,13 +49,17 @@ const Projects = () => {
         const section = sectionRef.current;
         const mm = gsap.matchMedia();
 
-        mm.add("(min-width: 969px)", () => {
+        mm.add("(min-width: 0px)", () => {
+            // Universal Horizontal Scroll Calculation
             const calculateX = () => {
                 const winWidth = window.innerWidth;
-                const firstSlide = wrapper.querySelector('.slide-intro');
-                const lastSlide = wrapper.querySelector('.slide-outro');
+                const slides = gsap.utils.toArray('.project-item-horizontal');
+                const firstSlide = slides[0];
+                const lastSlide = slides[slides.length - 1];
 
                 if (!firstSlide || !lastSlide) return { startX: 0, endX: 0 };
+
+                // For centering on ALL devices
                 const startX = (winWidth / 2) - (firstSlide.offsetLeft + firstSlide.offsetWidth / 2);
                 const endX = (winWidth / 2) - (lastSlide.offsetLeft + lastSlide.offsetWidth / 2);
                 return { startX, endX };
@@ -73,47 +77,53 @@ const Projects = () => {
                         pin: true,
                         scrub: 1,
                         start: "top top",
-                        end: () => `+=${Math.abs(endX - startX)}`,
+                        end: () => `+=${Math.abs(endX - startX) * 1.5}`, // Scaled for mobile feel
                         invalidateOnRefresh: true,
                         anticipatePin: 1,
                     }
                 }
             );
 
+            // Project Image Parallax & Revealing
             gsap.utils.toArray('.project-item-horizontal').forEach((item) => {
+                const img = item.querySelector('.p-img-h');
+
+                // Entry animation
                 gsap.from(item, {
                     opacity: 0,
-                    y: 50,
-                    duration: 1,
-                    ease: "power2.out",
+                    scale: 0.9,
+                    y: 20,
+                    duration: 1.2,
+                    ease: "power3.out",
                     scrollTrigger: {
                         trigger: item,
                         containerAnimation: horizontalTween,
-                        start: "left 95%",
+                        start: "left 90%",
                     }
                 });
+
+                // Internal Image Scale Parallax
+                if (img) {
+                    gsap.fromTo(img,
+                        { scale: 1.2 },
+                        {
+                            scale: 1,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: item,
+                                containerAnimation: horizontalTween,
+                                start: "left 100%",
+                                end: "right 0%",
+                                scrub: true
+                            }
+                        }
+                    );
+                }
             });
 
             return () => {
                 ScrollTrigger.getAll().forEach(t => t.kill());
             };
-        });
-
-        // Mobile Animations
-        mm.add("(max-width: 968px)", () => {
-            gsap.utils.toArray('.project-item-horizontal').forEach((item) => {
-                gsap.from(item, {
-                    opacity: 0,
-                    y: 50,
-                    duration: 1,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: item,
-                        start: "top 80%",
-                        toggleActions: 'play none none none'
-                    }
-                });
-            });
         });
 
         return () => mm.revert();

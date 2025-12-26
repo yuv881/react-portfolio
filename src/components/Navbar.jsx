@@ -67,13 +67,13 @@ const Navbar = () => {
                     </div>
 
                     <div className="nav-desktop-links">
-                        {['about', 'projects', 'skills', 'contact'].map(item => (
+                        {menuItems.map(item => (
                             <button
-                                key={item}
-                                className={`nav-link-item ${activeSection === item ? 'active' : ''}`}
-                                onClick={() => scrollToSection(item)}
+                                key={item.id}
+                                className={`nav-link-item ${activeSection === item.id ? 'active' : ''}`}
+                                onClick={() => scrollToSection(item.id)}
                             >
-                                {item}
+                                {item.label}
                             </button>
                         ))}
                     </div>
@@ -81,7 +81,7 @@ const Navbar = () => {
                     <div className="nav-actions">
                         <a href="/resume.pdf" download className="nav-cv-btn desktop-only">
                             CV
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
                         </a>
                         <button className="theme-btn" onClick={toggleTheme} aria-label="Toggle Theme">
                             {theme === 'dark' ? (
@@ -131,7 +131,7 @@ const Navbar = () => {
                         <div className="menu-footer-right">
                             <a href="/resume.pdf" download className="menu-cv-btn">
                                 Download CV
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
                             </a>
                         </div>
                     </div>
