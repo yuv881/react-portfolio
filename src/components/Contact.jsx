@@ -5,6 +5,11 @@ import './Contact.css';
 const Contact = () => {
     const sectionRef = useRef(null);
     const [status, setStatus] = useState('');
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        message: ''
+    });
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -34,13 +39,37 @@ const Contact = () => {
         return () => ctx.revert();
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setStatus('sending');
-        setTimeout(() => {
-            setStatus('success');
-            setTimeout(() => setStatus(''), 3000);
-        }, 1500);
+
+        try {
+            const response = await fetch('http://localhost:5000/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                setStatus('success');
+                setFormData({ name: '', email: '', message: '' });
+                setTimeout(() => setStatus(''), 5000);
+            } else {
+                setStatus('error');
+                setTimeout(() => setStatus(''), 5000);
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            setStatus('error');
+            setTimeout(() => setStatus(''), 5000);
+        }
     };
 
     return (
@@ -61,19 +90,42 @@ const Contact = () => {
                     <form className="contact-form-mono" onSubmit={handleSubmit}>
                         <div className="form-field-mono">
                             <label>Full Name</label>
-                            <input type="text" required placeholder="John Doe" />
+                            <input
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                                placeholder="John Doe"
+                            />
                         </div>
                         <div className="form-field-mono">
                             <label>Email Address</label>
-                            <input type="email" required placeholder="john@example.com" />
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                                placeholder="john@example.com"
+                            />
                         </div>
                         <div className="form-field-mono">
                             <label>Project Details</label>
-                            <textarea rows="4" required placeholder="Tell me about your project..."></textarea>
+                            <textarea
+                                name="message"
+                                value={formData.message}
+                                onChange={handleChange}
+                                rows="4"
+                                required
+                                placeholder="Tell me about your project..."
+                            ></textarea>
                         </div>
 
                         <button type="submit" className="btn-mono" disabled={status === 'sending'}>
-                            {status === 'sending' ? 'Sending...' : status === 'success' ? 'Message Received' : 'Send Message'}
+                            {status === 'sending' ? 'Sending...' :
+                                status === 'success' ? 'Message Received' :
+                                    status === 'error' ? 'Oops! Try Again' : 'Send Message'}
                         </button>
                     </form>
                 </div>
@@ -87,5 +139,6 @@ const Contact = () => {
         </section>
     );
 };
+
 
 export default Contact;
